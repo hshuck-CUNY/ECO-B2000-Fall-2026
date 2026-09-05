@@ -1,27 +1,118 @@
-HW 1 09052026
+#HW 1 09052026
+#Q1: Name of people in study group: Morium, Ishika
+#Q2: Put tape on opposite side of 6 so that dice would stick when falling on certain side
+#1- N
+#2- Y
+#3- N
+#4- N
+#5- N
+#6- N
+#7- Y
+#8- N
+#9- N
+#10- N
+#11- N
+#12- Y
+#13- N
+#14- N
+#15- Y
+#16- N
+#17- N
+#18- N
+#19- N
+#20- N
 
-Q1: Name of people in study group: Morium, Ishika
+#Q3: Further investigation of dataset
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
 
-Q2: Put tape on opposite side of 6 so that dice would stick when falling on certain side
-1- N
-2- Y
-3- N
-4- N
-5- N
-6- N
-7- Y
-8- N
-9- N
-10- N
-11- N
-12- Y
-13- N
-14- N
-15- Y
-16- N
-17- N
-18- N
-19- N
-20- N
+InputDirectory = "C:/Users/shuckh/OneDrive - STV Incorporated/Documents/Hana Shuck/CUNY/ECO B2000 Econometrics/ecob2000_lecture1"
 
-Q3: R code: 
+#set working directory
+setwd(InputDirectory)
+
+#call data
+load("d_HHP2020_24.RData")
+#glimpse(d_HHP2020_24) try this later
+d_HHP2020_24[1:10,1:6]
+
+attach(d_HHP2020_24)
+#average income by region
+d_HHP2020_24 %>%
+  group_by(Region, work_kind) %>%
+  summarise(
+    avg_income = mean(income_midpoint, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(work_kind, avg_income, fill = work_kind)) +
+  geom_col() +
+  facet_wrap(~ Region) +
+  labs(
+    x = "Work Type",
+    y = "Income"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90), legend.position = "none")
+
+# Create income groups
+d_HHP2020_24 <- d_HHP2020_24 %>%
+  mutate(
+    income_group = case_when(
+      income_midpoint < 40000 ~ "<$40k",
+      income_midpoint >= 40000 & income_midpoint < 62500 ~ "$40k-$62.5k",
+      income_midpoint >= 62500 & income_midpoint < 82500 ~ "$62.5k-$82.5k",
+      income_midpoint >= 82500 & income_midpoint < 125000 ~ "$82.5k-$125k",
+      income_midpoint >= 125000 & income_midpoint < 225000 ~ "$125k-$225k",
+      income_midpoint >= 225000 ~ "$225k+",
+      TRUE ~ NA_character_
+    )
+  )
+
+# income by work kind and education
+income_education <- d_HHP2020_24 %>%
+  group_by(Region, Education, income_group) %>%
+  summarise(
+    n_obs = n(),
+    .groups = "drop"
+  ) %>%
+  group_by(Region,Education) %>%
+  mutate(
+    pct = n_obs / sum(n_obs)
+  ) %>%
+  ungroup()
+
+# Plot
+ggplot(d_HHP2020_24,
+       aes(x = Education,
+           fill = income_group)) +
+  geom_bar(position = "fill") +
+  facet_wrap(~ work_kind) +
+  scale_y_continuous(
+    labels = function(x) paste0(round(100 * x), "%")
+  ) +
+  labs(
+    x = "Education",
+    y = "Income Proportion",
+    fill = "Income Group",
+    title = "Income Distribution by Education and Work Type"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+#Observing the relationship between work type, income, and region, there are differences across employment sectors. 
+#In the Northeast and West, households with members employed by private companies tend to report higher income midpoints than households with government employees. 
+#Government employees in the South have a higher median income category than their private-sector counterparts. Acknowledging that this data reflect household income rather than individual earnings, the broader pattern remains consistent across all regions, such that households associated with nonprofit or charitable employment generally have lower income midpoints than those associated with either government or private-sector employment.
+#Also observing income by education and work type, there are patterns that are largely consistent for government employees, private-sector employees, and nonprofit workers. 
+#Across these groups, households with incomes above $125,000 are more concentrated among individuals with advanced degrees, suggesting a strong correlation between educational attainment and household income. 
+#This relationship is less distinct for individuals that are self-employed and those working in family businesses. 
+#Although higher levels of education are still generally associated with higher-income households in these groups, the income gap between advanced-degree holders and those with lower levels of educational attainment is notably smaller than compared to individuals employed by an external party.
+
+#Q4: Interesting questions to ask about the Household Pulse Data
+#Does government employment reduce income variability compared with private-sector employment?
+#Does access to health insurance vary by work type and is there a pattern based on income?
+#Is there a gender difference in income, regardless of degree, work type, or household size?
+
+#Q5: Look over Lab 1, to start thinking about what you're being asked to do. Complete

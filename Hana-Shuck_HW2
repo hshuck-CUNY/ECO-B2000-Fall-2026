@@ -1,0 +1,16 @@
+1) Group- Simon
+2) Results of Lab 1
+
+Approach
+
+
+
+
+3) Created Sportify playlist of 30 songs. I included 10 songs I most recently listened to. 10 songs I have listened to in the past. and 
+10 songs I have never listened to by artists I do not know. 
+Hypothesis- The first few songs will always be the songs I listened to the most. 
+Testing- Simulated 10 times. Shuffled throughout the entire playlist (30 shuffles).
+Tests 1-3 - first song in shuffle was usually one I played often. 
+Tests 4-10 Middle shuffles seemed to be more random. At times 4 songs in a row would play that I had never played before.
+The more I shuffled, the more it seemed like there was an equal probability of a song I knew, song I didn't know, 
+and song I have listened to previously to come up in that order.

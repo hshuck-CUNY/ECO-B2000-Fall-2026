@@ -1,10 +1,13 @@
-1) Group- Simon
+1) Group- Simon, Ishika
+
 2) Results of Lab 1
-
-Approach
-
-
-
+Rule: My dice is unfair if the mean falls outside 2 standard deviations from the mean of a 'fair dice' 
+Used R to simulate 100 experiments to act as a 'fair dice'. Each simulation had 20 rolls. 
+Used R to calculate the mean roll value for each simulation. 
+The average of the simulated means was 3.49. The standard deviation of the simulated means was 0.37. 
+Two standard deviations of the simulation (2 s.d.s = 0.74) was between 2.75 and 4.23 was within 95% CI. 
+My observed dice-rolling mean was 4.7 and 3.5. One dice fell outside the 95% CI. 
+Result: One dice has evidence that is is 'unfair'.
 
 3) Created Sportify playlist of 30 songs. I included 10 songs I most recently listened to. 10 songs I have listened to in the past. and 
 10 songs I have never listened to by artists I do not know. 

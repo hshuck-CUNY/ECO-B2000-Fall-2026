@@ -1,0 +1,174 @@
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+
+InputDirectory = "C:/Users/shuckh/OneDrive - STV Incorporated/Documents/Hana Shuck/CUNY/ECO B2000 Econometrics/ecob2000_lecture3"
+
+#set working directory
+setwd(InputDirectory)
+
+#call data
+load("d_HHP2020_24.RData")
+attach(d_HHP2020_24)
+
+#look at rates of marriage by race and region
+Mar_Race_dataset <- d_HHP2020_24 %>%
+  filter(Mar_Stat == "Married")
+
+marriage_race_region_dataset <- d_HHP2020_24 %>%
+  filter(
+    !is.na(Mar_Stat),
+    !is.na(Race),
+    !is.na(Region)
+  ) %>%
+  mutate(
+    married = ifelse(
+      tolower(Mar_Stat) %in% c("married", "divorced", "widowed", "separated"),
+      1, 0
+    )
+  ) %>%
+  group_by(Region, Race) %>%
+  summarise(
+    married_rate = mean(married) * 100,
+    .groups = "drop"
+  )
+
+marriage_race_region <- ggplot(marriage_race_region_dataset,
+         aes(x = married_rate, y = Region)) +
+    geom_point(size = 3) +
+    facet_wrap(~ Race) +
+    labs(
+      title = "Marriage status by race and region",
+      x = "Percent",
+      y = "Race"
+    ) +
+    theme_minimal()
+
+marriage_race_region
+
+#save graph for marriage, race, region
+ggsave(
+  filename = "marriage_race_region.png",
+  width = 10,
+  height = 7,
+  dpi = 360
+)
+
+#now account for age
+summary(d_HHP2020_24$Age)
+
+marriage_age_dataset <- d_HHP2020_24 %>%
+  filter(
+    !is.na(Age),
+    !is.na(Mar_Stat),
+    !is.na(Race),
+    !is.na(Region)
+  ) %>%
+  mutate(
+    married = ifelse(
+      tolower(Mar_Stat) %in% c("married", "divorced", "widowed", "separated"),
+      1, 0
+    ),
+    age_group = cut(
+      Age,
+      breaks = c(18, 39, 53, 65, Inf),
+      right = FALSE,
+      labels = c("17-38", "39-52",
+                 "53-65", "65+")
+    )
+  ) %>%
+  filter(!is.na(age_group)) %>%
+  group_by(Region, Race, age_group) %>%
+  summarise(
+    rate = mean(married) * 100,
+    n = n(),
+    .groups = "drop"
+  )
+
+marriage_age <- ggplot(marriage_age_dataset,
+                       aes(x = age_group, y = rate, fill = Race)) +
+  geom_col(position = "dodge") +
+  facet_wrap(~Region) +
+  labs(
+    title = "Marital Status by Age, Race, and Region",
+    x = "Age Group",
+    y = "Percent (%)",
+    fill = "Region"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+marriage_age
+
+#save graph for marriage, age, race, region
+ggsave(
+  "marriage_age_race_region.png",
+  width = 11,
+  height = 7,
+  dpi = 360
+)
+
+#compare against never married to see if there is trend
+marriage_compare_dataset <- d_HHP2020_24 %>%
+  filter(
+    !is.na(Age),
+    !is.na(Mar_Stat),
+    !is.na(Race)
+  ) %>%
+  mutate(
+    age_group = cut(
+      Age,
+      breaks = c(18, 39, 53, 65, Inf),
+      right = FALSE,
+      labels = c("17-38", "39-52",
+                 "53-65", "65+")
+    ),
+    marriage_group = case_when(
+      tolower(Mar_Stat) %in%
+        c("married", "divorced", "widowed", "separated") ~ "Married/Previously Married",
+      tolower(Mar_Stat) == "never" ~ "Never Married",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(
+    !is.na(age_group),
+    !is.na(marriage_group)
+  ) %>%
+  group_by(Race, age_group, marriage_group) %>%
+  summarise(
+    n = n(),
+    .groups = "drop"
+  ) %>%
+  group_by(Race, age_group) %>%
+  mutate(
+    percent = n / sum(n) * 100
+  ) %>%
+  ungroup()
+
+marriage_compare <- ggplot(marriage_compare_dataset,
+                           aes(x = age_group, y = percent, fill = Race)) +
+  geom_col(position = "dodge") +
+  facet_wrap(~ marriage_group) +
+  labs(
+    title = "Marital Status by Race and Age",
+    x = "Age Group",
+    y = "Percent",
+    fill = "Marital Status"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  )
+
+marriage_compare
+
+#save graph for marriage vs never married by age
+ggsave(
+  "marriage_by_race_age.png",
+  width = 12,
+  height = 8,
+  dpi = 360
+)

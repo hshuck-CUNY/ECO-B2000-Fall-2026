@@ -1,0 +1,21 @@
+1. Study group- Ishika, Simon, Morium
+
+2. I filtered the dataset to adults between the ages 25–39, hoping there would be more variation in marriage rates. 
+For demographics, I looked at income, children, and the relationship between income and gender.
+
+For marriage rates by income:
+I divided respondents into four income groups: lowest, lower-middle, upper-middle, and highest income using the quantiles functions in r.
+Partnering rates increase with age for all four income groups.
+At younger ages, the differences between income groups are relatively small.
+By the late 30s, roughly 90% of the highest-income group is partnered, compared with only about 55–60% of the lowest-income group.
+The relationship is especially noticeable after about age 30.
+
+For marriage rates by children in household:
+At age 25, about 45% of people with children are partnered, compared with about 20% of people without children.
+The gap remains large across the entire age range.
+By the late 30s, partnering reaches almost 90% among people with children, compared with approximately 50% among people without children.
+
+For marriage rates by income and gender: 
+For both males and females, partnering rates increase with age and are generally higher among higher-income respondents.
+One interesting result is that the income differences appear larger than the male-female differences.
+The trans and other groups show much more variation from age to age. Likely due to sample size.

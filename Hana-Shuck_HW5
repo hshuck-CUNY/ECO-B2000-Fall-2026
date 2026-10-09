@@ -1,0 +1,25 @@
+1) Wasn't in class for this lab but coordinated with Simon and Ishika for questions!
+
+2)For this lab, I looked at how age, gender, and geographic region relate to income using data from the Household Pulse Survey from 2020 to 2024. 
+I ran a linear regression and used the results to predict income for the following groups: age, gender, region.
+
+Aim of the regression was to predict income for each gender group based on geographic regions. 
+To make the comparisons consistent, I held age constant at 41- which was the calculated median age of the dataset. Therefore, I was able to only look at gender and regional differences without age changing.
+
+Hypothesis 1: 
+Null Hypothesis: Age has no relationship with income
+Results: The regression estimated that each additional year of age was associated with approximately $1,187 in higher income. 
+The p-value was below 0.001, and the 95% confidence interval ranged from approximately $1,160 to $1,214.
+Reject null hypothesis. 
+
+Hypothesis 2
+Null Hypothesis: No income difference between the gender groups
+Results: The regression showed that females had approximately $19,832 lower predicted income than males, holding age and region constant. 
+The p-value was below 0.001, and the 95% confidence interval ranged from approximately −$20,279 to −$19,385.
+Reject null hypothesis.
+
+Hypothesis 3: 
+Null Hypothsis: No difference in income and regions (Northeast and South specifically)
+The regression showed that individuals in the Northeast had approximately $11,620 higher predicted income than those in the South, holding age and gender constant.
+The p-value was below 0.001, and the 95% confidence interval ranged from approximately $10,931 to $12,309.
+Rehject null hypothesis. 

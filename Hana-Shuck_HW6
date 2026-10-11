@@ -1,0 +1,62 @@
+Lab partner: Alfa
+
+Regression testing for prediction of peak wage: 
+I tested the relationship between age, white vs non-white, college-educated, and women vs non-women. 
+I filtered the dataset by- ages 25-65 and working full-time (above 35 hrs in this case).
+
+Regressions to compare: 
+1. m1 <- lm(INCWAGE ~ AGE + I(AGE^2), data = acs_fulltime) where acs_fulltime = hours worked > 35
+2. m2 <- lm(INCWAGE ~ AGE + I(AGE^2), data = acs_college) where acs_college = college and adv degree = 1
+
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -1.295e+05  2.273e+03  -57.00   <2e-16 ***
+AGE          9.490e+03  1.072e+02   88.56   <2e-16 ***
+I(AGE^2)    -9.042e+01  1.203e+00  -75.19   <2e-16 ***
+
+3. m3 <- lm(INCWAGE ~ AGE + I(AGE^2) + female + I(female*AGE) + I(female*(AGE^2)), data = acs_college)
+
+                      Estimate Std. Error t value Pr(>|t|)    
+(Intercept)         -1.796e+05  3.172e+03  -56.63   <2e-16 ***
+AGE                  1.219e+04  1.485e+02   82.11   <2e-16 ***
+I(AGE^2)            -1.153e+02  1.656e+00  -69.61   <2e-16 ***
+female               9.631e+04  4.459e+03   21.60   <2e-16 ***
+I(female * AGE)     -5.119e+03  2.103e+02  -24.34   <2e-16 ***
+I(female * (AGE^2))  4.495e+01  2.360e+00   19.05   <2e-16 ***
+
+4. m4 <- lm(INCWAGE ~ AGE + I(AGE^2) + white + I(white*AGE) + I(white*(AGE^2)), data = subset(acs_college, female == 1))
+
+                     Estimate Std. Error t value Pr(>|t|)    
+(Intercept)        -93972.080   4419.344 -21.264  < 2e-16 ***
+AGE                  7757.787    211.221  36.728  < 2e-16 ***
+I(AGE^2)              -80.607      2.408 -33.478  < 2e-16 ***
+white               13165.408   5282.783   2.492 0.012698 *  
+I(white * AGE)       -864.179    251.861  -3.431 0.000601 ***
+I(white * (AGE^2))     13.270      2.861   4.639  3.5e-06 ***
+
+5. m5 <- lm(INCWAGE ~ AGE + I(AGE^2) + white + I(white*AGE) + I(white*(AGE^2)), data = subset(acs_college, female == 0))
+
+                     Estimate Std. Error t value Pr(>|t|)    
+(Intercept)        -1.739e+05  7.097e+03 -24.498   <2e-16 ***
+AGE                 1.228e+04  3.373e+02  36.411   <2e-16 ***
+I(AGE^2)           -1.241e+02  3.827e+00 -32.441   <2e-16 ***
+white              -1.716e+04  8.363e+03  -2.052   0.0401 *  
+I(white * AGE)      3.763e+02  3.953e+02   0.952   0.3410    
+I(white * (AGE^2))  5.879e+00  4.457e+00   1.319   0.1872   
+
+I then used the predict() function to create table to calculate predicted wage for ages 25-65 for all the regressions and then rbind to make on dataframe.
+
+Finding the peak (max) for each regression, I got the following summary: 
+  Group                    Peak_Age Peak_Wage
+1 All Full-Time Workers          50     83612
+2 College-Educated Workers       52    119477
+3 Female                         50     94665
+4 Male                           53    142857
+5 Non-White Men                  49    129842
+6 Non-White Women                48     92683
+7 White Men                      54    147616
+8 White Women                    51     95624
+
+Summary: 
+College-educated workers reach their peak predicted wage at age 52, compared to full-time workers.
+College-educated men reach their peak predicted wage at age 53, compared to age 50 for women.
+White men have the highest predicted peak wage at age 54, while non-White women have the lowest at age 48.

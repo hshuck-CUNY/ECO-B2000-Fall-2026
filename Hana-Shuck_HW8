@@ -1,0 +1,5 @@
+I assessed the relationship between household income, age, race, and geographic region with likelihood of households violating the “half your age plus seven” dating rule. 
+The dataset is filtered by heterosexual couples in which the male partner is head of the household and has a female partner.
+I estimated two regression models: the first controlling for household income, male partner's age, and geographic region, and the second replacing region with race. 
+Both models found that higher household income and older male age were associated with a statistically significant lower probability of dating below the age guideline (p < 0.001). 
+In the regional model, some geographic differences were statistically significant, while the racial model identified significant differences across several racial groups relative to White partners. 

@@ -1,0 +1,28 @@
+Using the ACS couples dataset to examine which factors are associated with couples violating the “half your age plus seven” dating guideline. 
+I filtered the dataset to include heterosexual couples where the male partner was older than the female partner. 
+I then calculated the minimum age permitted under the guideline by dividing the male partner's age by two and adding seven.
+
+I created a binary variable called violation, assigning a value of 1 when the female partner was younger than the guideline's minimum age and 0 otherwise. 
+My final estimation sample included 272,091 couples, of which 3,842 (1.41%) violated the guideline.
+
+OLS-
+The OLS regression examined the relationship between the dating rule and household income, geographic region, employment status, and usual weekly hours worked.
+I found that higher male householder income was associated with a lower probability of violating the dating rule. 
+The relationship was statistically significant (p < 0.001). Specifically, a $10,000 increase in income was associated with a 0.0245-percentage-point decrease in the predicted probability of violation.
+I also found that regions 31, 41, and 42 had significantly higher probabilities of violation compared with the reference region. 
+Employment status was statistically significant, although the unusually large coefficients suggested that I should investigate how the reference category affected the results. 
+Hours worked had a small negative relationship with violations and was marginally significant (p = 0.045).
+The model had an R-squared of 0.0886, indicating that the included variables explained approximately 8.9% of the variation in guideline violations.
+
+Logit-
+Compared to the logistic regression, this provided a more appropriate framework for estimating the probability of a violation as the dependent variable was binary.
+The regression generally supported my OLS findings. 
+Higher income remained statistically significant and negatively associated with violations. 
+A $10,000 increase in income was associated with approximately 2.9% lower odds of violating the guideline.
+Regions 31, 41, and 42 also remained statistically significant.
+However, I noticed some differences between the models. Hours worked was no longer statistically significant at the 5% level (p = 0.076).
+Employment status also became statistically insignificant, but the logistic regression produced unusually large standard errors. 
+
+By comparing OLS and logistic regression, both models produced similar conclusions about the significant of the variables.
+The logistic regression identified more actual violations, while OLS produced fewer false positives and higher overall accuracy.
+Overall, both models identified income and certain geographic regions as consistent correlates of guideline violations.

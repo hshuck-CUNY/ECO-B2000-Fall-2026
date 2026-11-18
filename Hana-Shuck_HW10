@@ -1,0 +1,15 @@
+For this lab, I took the machine learning methods to predict which couples violated the 'half your age plus seven' rule.
+I used household income, geographic region, employment status, and hours worked as my explanatory variables.
+I evaluated the models by comparing their predicted classifications with the actual outcomes in my test dataset. I calculated accuracy by dividing the number of correctly classified observations by the total number of observations in the dataset.
+I found that OLS, logistic regression, and LASSO had the highest predictive accuracy at 98.7%. 
+Random forest and SVM performed almost identically, also with 98.7% accuracy. Ridge had the lowest accuracy at 98.6%.
+I also compared the false positives and false negatives across the models to better understand their predictive performance.
+I found that all the models had zero false positives, meaning that every couple predicted to violate the guideline actually did. However, the models had a large number of false negatives.
+Looking at the F1 scores- OLS, logistic regression, and LASSO had the highest F1 score of 0.163, followed by random forest at 0.160 and SVM at 0.159. Ridge had an F1 score of 0.
+
+I wanted to see whether the more advanced methods provided any additional predictive benefit over the OLS and logistic regressions.
+LASSO did not improve predictive accuracy compared with OLS or logistic regression. All three models achieved the same accuracy of 98.7% and produced identical numbers of false positives and false negatives.
+Ridge showed the largest decline in accuracy, predicting 0.13% worse than OLS and logistic regression. Ridge also failed to correctly identify any violations.
+
+Using random forest variable- I found that household income was the most important predictor, with an importance score of 30.81. Hours worked was the second most important variable, with a score of 19.40.
+Overall, I found that OLS, logistic regression, and LASSO all performed the best. The more complicated machine learning methods do not automatically produce better predictions.
